@@ -29,7 +29,7 @@ Then log the run below. **Every run gets a row, including clean ones.** A run th
 
 Deliberate judgment calls. Watch how they land and tighten only with evidence.
 
-1. **`model: opus`.** The voice-versus-slop distinction is the hardest judgment in the file and false-positive rate is the whole ballgame. Revisit once the rules stop moving. If a cheaper model matches across a batch of logged runs, downgrade.
+1. **Model tier.** Running on a top-tier model, because the voice-versus-slop distinction is the hardest judgment in the file and false-positive rate is the whole ballgame. Revisit once the rules stop moving. If a cheaper model matches across a batch of logged runs, downgrade and note which model in the log.
 2. **Punctuation calibration.** The dash rules in CONFIG are a snapshot of current practice, not a law. If your team's habits move, this is the first section to re-source.
 3. **Accuracy without stored facts.** The agent derives product truth from the corpus every run rather than carrying a fact list. Watch for it missing real contradictions (FN) or asserting stale claims. If it turns out to need a fact catalog, that is a finding worth acting on, but the catalog belongs in your docs, not in the agent.
 4. **Confidence cap of 50 on a house-voice match alone.** This is the false-positive brake. If FPs still appear, tighten here before adding new rules.

@@ -1,8 +1,8 @@
 # copy-reviewer
 
-A Claude Code subagent that reviews documentation prose for AI slop, factual drift, and broken mechanics, without flattening the voice of the person who wrote it.
+A copy reviewer agent. It reviews documentation prose for AI slop, factual drift, and broken mechanics, without flattening the voice of the person who wrote it.
 
-Steal it. The agent is one file. Rewrite the CONFIG block at the top for your company and it works.
+Steal it. The agent is one file of plain instructions, no frontmatter and no vendor bindings. Rewrite the CONFIG block at the top for your company and it works.
 
 ## The problem it solves
 
@@ -32,7 +32,7 @@ It also carries an open question: which finding classes could a `copy-fixer` saf
 
 ## Adapt it
 
-1. Copy [`copy-reviewer.md`](copy-reviewer.md) to `.claude/agents/copy-reviewer.md` in your repo.
+1. Load [`copy-reviewer.md`](copy-reviewer.md) into your harness (see Running it below).
 2. Rewrite everything between `# CONFIG` and `# END CONFIG`. The shipped example is Dunder Mifflin, a fictional paper company. Nothing in it applies to you.
 3. Build the house-voice list by reading your own docs, not by guessing. Find the patterns a naive reviewer would flag and a good editor would defend. This list is what the confidence brake protects, and it is the difference between a reviewer people trust and one they mute.
 4. Copy [`feedback-log.md`](feedback-log.md) next to the agent and log your first run.
@@ -45,8 +45,34 @@ Calibrating. This was built for a real documentation corpus and it has a handful
 
 Treat it as a working starting point that still has to earn its place in your review process. The graduation criteria in the log are the bar I set for it, and it has not cleared them yet.
 
-## Requirements
+## Running it
 
-Claude Code with subagent support. The agent is a single markdown file with YAML frontmatter and no dependencies.
+The agent ships as a plain instruction document with no frontmatter, so it is not bound to any one tool. Load it however your harness expects.
+
+| Harness | How |
+|---|---|
+| Claude Code | Prepend the frontmatter below, save as `.claude/agents/copy-reviewer.md` |
+| Any harness with an agent format | Wrap in that platform's frontmatter, save to its agents directory |
+| Direct API, or a chat session | Pass the document as the system prompt |
+
+Claude Code frontmatter:
+
+```yaml
+---
+name: copy-reviewer
+description: Reviews changed documentation prose for accuracy, AI slop, voice preservation, microcopy, and mechanics. Read-only.
+model: opus
+---
+```
+
+## What it needs from the runtime
+
+Three capabilities, none vendor-specific:
+
+- **Repo read access.** Accuracy findings are verified against your corpus on every run, and cross-file drift needs a `file:line` citation. Without file access the agent still catches slop, microcopy, and mechanics, but accuracy findings degrade to guesses.
+- **Structured output.** The finding contract is a JSON object.
+- **A notion of changed lines.** The agent reviews diffs. To review an existing file, tell it to treat the whole file as a synthetic diff.
+
+Pick a strong model. The voice-versus-slop judgment is the hardest thing in the file, and a weaker model false-positives on exactly the writing you most want protected.
 
 MIT licensed.
