@@ -47,15 +47,16 @@ Treat it as a working starting point that still has to earn its place in your re
 
 ## Running it
 
-The agent ships as a plain instruction document with no frontmatter, so it is not bound to any one tool. Load it however your harness expects.
+The agent ships as a plain instruction document with no frontmatter, so it is not bound to any one tool.
 
-| Harness | How |
-|---|---|
-| Claude Code | Prepend the frontmatter below, save as `.claude/agents/copy-reviewer.md` |
-| Any harness with an agent format | Wrap in that platform's frontmatter, save to its agents directory |
-| Direct API, or a chat session | Pass the document as the system prompt |
+| Harness | Where it goes | Frontmatter |
+|---|---|---|
+| Claude Code | `.claude/agents/copy-reviewer.md` | block below |
+| Codex | `.codex/agents/copy-reviewer.md` | same block |
+| Cursor, Continue, and similar | that tool's rules or custom-mode directory | that tool's format |
+| Direct API, or a chat session | nowhere | none, pass the document as the system prompt |
 
-Claude Code frontmatter:
+Claude Code and Codex read the same three fields, so one block covers both. Paste it above the `# Copy reviewer` heading:
 
 ```yaml
 ---
@@ -64,6 +65,8 @@ description: Reviews changed documentation prose for accuracy, AI slop, voice pr
 model: opus
 ---
 ```
+
+`model` is optional and its accepted values are harness-specific. Omit it to inherit whatever the session is running.
 
 ## What it needs from the runtime
 
