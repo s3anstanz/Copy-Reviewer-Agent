@@ -2,11 +2,18 @@
 
 An agent that reviews documentation prose for AI slop, factual drift, and broken mechanics, without flattening the voice of the person who wrote it.
 
-Steal it. The agent is one file of plain instructions, no frontmatter and no vendor bindings. Rewrite the CONFIG block at the top for your company and it works.
+Steal it. Two files: an engine you copy verbatim, and a house-style file you write for your company. No frontmatter, no vendor bindings.
+
+| File | What it is |
+|---|---|
+| [`copy-reviewer.md`](copy-reviewer.md) | The engine. Rules, precedence, the confidence brake, the output contract. Never edited. |
+| [`house-style.example.md`](house-style.example.md) | A worked example of the companion file the engine reads. Rewrite it for your project. |
+
+The engine reads the house style before every review, and refuses to run without it. That split is deliberate: your conventions change often, the engine almost never.
 
 ## Install
 
-The agent ships without frontmatter so it is not bound to any one tool. Add whatever your harness expects.
+The engine ships without frontmatter so it is not bound to any one tool. Add whatever your harness expects.
 
 ### Claude Code or Codex
 
@@ -14,22 +21,34 @@ Both read the same three frontmatter fields, so one command covers either. Run i
 
 ```bash
 AGENT_DIR=.claude/agents          # Codex: use .codex/agents
+BASE=https://raw.githubusercontent.com/s3anstanz/copy-reviewer-agent/main
 
-mkdir -p "$AGENT_DIR"
+mkdir -p "$AGENT_DIR" .copy-reviewer
+
+# The engine, with frontmatter prepended
 {
   printf -- '---\nname: copy-reviewer\ndescription: Reviews changed documentation prose for accuracy, AI slop, voice preservation, microcopy, and mechanics. Read-only.\nmodel: opus\n---\n\n'
-  curl -sL https://raw.githubusercontent.com/s3anstanz/copy-reviewer-agent/main/copy-reviewer.md
+  curl -sL "$BASE/copy-reviewer.md"
 } > "$AGENT_DIR/copy-reviewer.md"
+
+# Your house style. This is the file you edit.
+curl -sL "$BASE/house-style.example.md" -o .copy-reviewer/house-style.md
 ```
+
+`.copy-reviewer/house-style.md` is the path the engine looks for, and it is the same regardless of harness.
 
 `model` is optional and its accepted values differ by harness. Drop the line to inherit whatever the session is running.
 
 ### Anything else
 
-Grab the file and pass it as a system prompt, or paste it into your tool's rules or custom-mode directory:
+Grab both files. Pass the engine as a system prompt, and make sure the house style is readable at `.copy-reviewer/house-style.md`:
 
 ```bash
-curl -sLO https://raw.githubusercontent.com/s3anstanz/copy-reviewer-agent/main/copy-reviewer.md
+BASE=https://raw.githubusercontent.com/s3anstanz/copy-reviewer-agent/main
+
+mkdir -p .copy-reviewer
+curl -sLO "$BASE/copy-reviewer.md"
+curl -sL "$BASE/house-style.example.md" -o .copy-reviewer/house-style.md
 ```
 
 ### The calibration log
@@ -49,13 +68,15 @@ git clone https://github.com/s3anstanz/copy-reviewer-agent.git
 
 ## Configure
 
-The agent will not work well until you do this. It ships calibrated to Dunder Mifflin, a fictional paper company, and none of that applies to you.
+The agent refuses to run until you do this, and it should. The shipped house style describes Dunder Mifflin, a fictional paper company, and none of it applies to you.
 
-Open the file and replace everything between `# CONFIG` and `# END CONFIG`:
+Replace the whole file:
 
 ```bash
-$EDITOR .claude/agents/copy-reviewer.md
+$EDITOR .copy-reviewer/house-style.md
 ```
+
+The engine stays untouched, which means you can pull a newer version of it later without losing your calibration.
 
 Four things to set, in order of how much they matter:
 

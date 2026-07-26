@@ -1,6 +1,8 @@
 # Adapting the agent to your project
 
-Everything you need to change lives between `# CONFIG` and `# END CONFIG` in [`copy-reviewer.md`](../copy-reviewer.md). The engine below that line has no project-specific content.
+Everything you need to change lives in one file: `.copy-reviewer/house-style.md`, installed from [`house-style.example.md`](../house-style.example.md). The engine in [`copy-reviewer.md`](../copy-reviewer.md) holds no project-specific content and is never edited.
+
+The sections below match the sections in that file, in order.
 
 Budget an hour. Most of it goes into the house-voice list, which is the section that determines whether anyone trusts the output.
 
