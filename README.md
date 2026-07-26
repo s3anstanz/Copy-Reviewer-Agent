@@ -64,7 +64,7 @@ Four things to set, in order of how much they matter:
 3. **Surface gate.** Which rule classes bind on which surface. Docs headings and button labels usually follow different case conventions, and this table is what stops the agent applying one to the other.
 4. **Microcopy, spelling, punctuation, framework mechanics.** Your conventions, your stack.
 
-[`ADAPTING.md`](ADAPTING.md) walks through every section with the reasoning behind it. Budget an hour, most of it on the house-voice list.
+[`ADAPTING.md`](docs/ADAPTING.md) walks through every section with the reasoning behind it. Budget an hour, most of it on the house-voice list.
 
 ## Run it
 
@@ -120,7 +120,7 @@ This agent treats that as the thing to engineer against. Under-flagging is recov
 
 **No stored product facts.** Accuracy claims are verified against your repo every run. The agent carries no fact list that can go stale, and anything it cannot verify goes into `blindSpots` instead of becoming a confident wrong finding.
 
-[`WHY-IT-WORKS.md`](WHY-IT-WORKS.md) covers the reasoning in more depth, including which parts port to reviewers for other subjective work.
+[`WHY-IT-WORKS.md`](docs/WHY-IT-WORKS.md) covers the reasoning in more depth, including which parts port to reviewers for other subjective work.
 
 ## The calibration log
 

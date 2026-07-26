@@ -68,7 +68,7 @@ The tradeoff is real: this costs a corpus read every run, and it means the agent
 
 Any agent doing subjective work can claim a low false-positive rate. The claim is worth nothing without data.
 
-[`feedback-log.md`](feedback-log.md) is how the claim gets tested. Every run gets a row with a verdict of TP, FP, FN, or near-miss. Clean runs get rows too, which matters more than it sounds: a log containing only runs that found something will overstate the false-positive rate badly, because the denominator is missing.
+[`feedback-log.md`](../feedback-log.md) is how the claim gets tested. Every run gets a row with a verdict of TP, FP, FN, or near-miss. Clean runs get rows too, which matters more than it sounds: a log containing only runs that found something will overstate the false-positive rate badly, because the denominator is missing.
 
 The log also holds a register of rules deliberately left as judgment calls, so that when a false positive appears there is a documented list of the most likely culprits before anyone starts adding new rules. Adding rules in response to a false positive is usually the wrong move. Tightening the brake is usually the right one.
 
