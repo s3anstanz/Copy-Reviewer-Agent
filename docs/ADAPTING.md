@@ -1,6 +1,8 @@
 # Adapting the agent to your project
 
-Everything you need to change lives between `# CONFIG` and `# END CONFIG` in [`copy-reviewer.md`](copy-reviewer.md). The engine below that line has no project-specific content.
+Everything you need to change lives in one file: `.copy-reviewer/house-style.md`, installed from [`house-style.example.md`](../house-style.example.md). The engine in [`copy-reviewer.md`](../copy-reviewer.md) holds no project-specific content and is never edited.
+
+The sections below match the sections in that file, in order.
 
 Budget an hour. Most of it goes into the house-voice list, which is the section that determines whether anyone trusts the output.
 
@@ -75,6 +77,6 @@ One item worth checking in your own setup: whether your build actually fails on 
 
 ## First run
 
-Point it at a real change and log the result in [`feedback-log.md`](feedback-log.md).
+Point it at a real change and log the result in [`feedback-log.md`](../feedback-log.md).
 
 Expect the first few runs to surface config problems rather than prose problems. A false positive on your best writing means the house-voice list is incomplete. A missed defect means a surface is gated wrong or a rule is missing. Both are cheap to fix early and expensive to fix after people have decided the reviewer is noisy.
